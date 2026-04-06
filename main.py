@@ -1,5 +1,5 @@
 from datetime import date, datetime
-from pathlib import Path
+import os
 from typing import List
 
 from fastapi import FastAPI, HTTPException, Response, status
@@ -10,8 +10,10 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column, sess
 app = FastAPI(title="Task Management API", version="1.0.0")
 APP_PORT = 8080
 
-DATABASE_PATH = Path(__file__).with_name("tasks.db")
-DATABASE_URL = f"sqlite:///{DATABASE_PATH}"
+DATABASE_URL = os.getenv(
+    "DATABASE_URL",
+    "postgresql+psycopg://tasks_user:tasks_password@localhost:5432/tasks_db",
+)
 
 
 class Base(DeclarativeBase):
@@ -29,7 +31,7 @@ class Task(Base):
     fecha_creacion: Mapped[datetime] = mapped_column(DateTime, nullable=False)
 
 
-engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(bind=engine)
 Base.metadata.create_all(bind=engine)
 

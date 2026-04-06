@@ -1,0 +1,39 @@
+services:
+  api:
+    build: .
+    container_name: task_api
+    environment:
+      DATABASE_URL: postgresql+psycopg://tasks_user:tasks_password@db:5432/tasks_db
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - task_api_network
+
+  db:
+    image: postgres:16
+    container_name: task_api_postgres
+    environment:
+      POSTGRES_DB: tasks_db
+      POSTGRES_USER: tasks_user
+      POSTGRES_PASSWORD: tasks_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - task_api_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tasks_user -d tasks_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+
+networks:
+  task_api_network:
+    name: task_api_network
