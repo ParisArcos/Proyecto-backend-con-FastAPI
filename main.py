@@ -8,6 +8,7 @@ from sqlalchemy import Boolean, Date, DateTime, Integer, String, create_engine
 from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column, sessionmaker
 
 app = FastAPI(title="Task Management API", version="1.0.0")
+APP_PORT = 8080
 
 DATABASE_PATH = Path(__file__).with_name("tasks.db")
 DATABASE_URL = f"sqlite:///{DATABASE_PATH}"
@@ -190,3 +191,9 @@ def marcar_completada(task_id: int):
 def borrar_tarea(task_id: int):
     task_manager.delete_task(task_id)
     return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run("main:app", host="127.0.0.1", port=APP_PORT, reload=True)

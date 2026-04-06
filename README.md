@@ -28,13 +28,16 @@ Puedes usar cualquiera de estos comandos:
 
 ```bash
 # Opción 1: Comando moderno de FastAPI (recomendado)
-fastapi dev main.py
+fastapi dev main.py --port 8080
 
 # Opción 2: Uvicorn tradicional
-uvicorn main:app --reload
+uvicorn main:app --reload --port 8080
+
+# Opción 3: Python directo
+python3 main.py
 ```
 
-La API estará disponible en `http://localhost:8000`
+La API estará disponible en `http://localhost:8080`
 
 ## Endpoints
 
@@ -55,5 +58,5 @@ python test_api.py
 ## Documentación interactiva
 
 Una vez ejecutando la aplicación, puedes acceder a:
-- Swagger UI: `http://localhost:8000/docs`
-- ReDoc: `http://localhost:8000/redoc`
+- Swagger UI: `http://localhost:8080/docs`
+- ReDoc: `http://localhost:8080/redoc`
