@@ -22,34 +22,13 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-Si vas a correr todo con Docker, este paso lo hace la imagen de la API.
-
 ### 3. Levantar la API y PostgreSQL con Docker
 
 ```bash
 docker compose up -d
 ```
 
-La API estará disponible en `http://localhost:8080`.
-
-La API y PostgreSQL corren dentro de la red Docker `task_api_network`.
-Dentro de Docker, la API usa esta conexión:
-
-```text
-postgresql+psycopg://tasks_user:tasks_password@db:5432/tasks_db
-```
-
-Si corres la API fuera de Docker, usa esta conexión local:
-
-```text
-postgresql+psycopg://tasks_user:tasks_password@localhost:5432/tasks_db
-```
-
-Si necesitas usar otra base de datos, puedes configurar la variable `DATABASE_URL`.
-
 ### 4. Ejecutar la aplicación fuera de Docker
-
-Puedes usar cualquiera de estos comandos:
 
 ```bash
 # Opción 1: Comando moderno de FastAPI (recomendado)
@@ -61,8 +40,6 @@ uvicorn main:app --reload --port 8080
 # Opción 3: Python directo
 python3 main.py
 ```
-
-La API estará disponible en `http://localhost:8080`
 
 ## Endpoints
 
@@ -82,6 +59,5 @@ python3 test_api.py
 
 ## Documentación interactiva
 
-Una vez ejecutando la aplicación, puedes acceder a:
 - Swagger UI: `http://localhost:8080/docs`
 - ReDoc: `http://localhost:8080/redoc`
